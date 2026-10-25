@@ -8,7 +8,7 @@ import { ENV } from '../config/env';
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
-  login: (email: string, pass: string) => Promise<User>;
+  login: (email: string, pass: string, role?: string) => Promise<User>;
   loginAsDemoUser: (user: User) => void;
   logout: () => Promise<void>;
   updateUser: (updated: Partial<User>) => void;
@@ -43,8 +43,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const login = async (email: string, pass: string): Promise<User> => {
-    const res = await authService.login(email, pass);
+  const login = async (email: string, pass: string, role?: string): Promise<User> => {
+    const res = await authService.login(email, pass, role);
     setUser(res.user);
     return res.user;
   };

@@ -8,40 +8,80 @@ import { apiRequest, setAuthToken } from './apiClient';
 import { User, ApiError } from '../types';
 import { mockStore } from '../mocks/mockStore';
 
+import { hashPassword } from '../utils/security';
+
 export interface LoginResponse {
   token: string;
   user: User;
 }
 
 export const authService = {
-  async login(email: string, password: string): Promise<LoginResponse> {
+  async login(email: string, password: string, role?: string): Promise<LoginResponse> {
     if (ENV.IS_DEMO) {
-      // Demo authentication simulation
-      const users = mockStore.getUsers();
-      const normalized = email.toLowerCase().replace('@civictrack.org', '@civicpulse.org');
-      const matched = users.find(
-        (u) => u.email.toLowerCase() === email.toLowerCase() || u.email.toLowerCase() === normalized
-      );
-
-      if (!matched) {
-        // FR-02: Neutral message after failed login without leaking email existence
+      if (!email || !password) {
         const err: ApiError = {
-          status: 401,
-          code: 'INVALID_CREDENTIALS',
-          message: 'Invalid email or password. Please verify your credentials.',
+          status: 400,
+          code: 'MISSING_CREDENTIALS',
+          message: 'Please enter both your email address and password.',
         };
         throw err;
       }
 
+      // 1. Consistent case-insensitive trimmed user lookup
+      const matched = mockStore.findUserByEmail(email);
+
+      if (!matched) {
+        // FR-02/FR-04: Generic neutral message for unknown email without leaking email existence
+        const err: ApiError = {
+          status: 401,
+          code: 'INVALID_CREDENTIALS',
+          message: 'Invalid email or password. Please verify your credentials or reset your password.',
+        };
+        throw err;
+      }
+
+      // 2. Secure password verification using salted SHA-256 hash
+      const computedHash = await hashPassword(password);
+      const isPasswordValid = mockStore.verifyPassword(matched.id, computedHash);
+
+      if (!isPasswordValid) {
+        const err: ApiError = {
+          status: 401,
+          code: 'INVALID_CREDENTIALS',
+          message: 'Invalid email or password. Please verify your credentials or reset your password.',
+        };
+        throw err;
+      }
+
+      // 3. Role matching validation: enforce workspace role alignment
+      if (role && matched.role !== role) {
+        const roleNames: Record<string, string> = {
+          CITIZEN: 'Citizen',
+          OFFICER: 'Department Officer',
+          ADMIN: 'Administrator',
+        };
+        const actualRoleName = roleNames[matched.role] || matched.role;
+        const requestedRoleName = roleNames[role] || role;
+
+        const err: ApiError = {
+          status: 403,
+          code: 'ROLE_MISMATCH',
+          message: `Access denied: This account is registered as a ${actualRoleName}. You cannot sign in under the ${requestedRoleName} workspace. Please select the ${actualRoleName} role tab above.`,
+        };
+        throw err;
+      }
+
+      // 4. Inactive/deactivated account protection
       if (matched.accountStatus === 'DEACTIVATED') {
         const err: ApiError = {
           status: 403,
           code: 'ACCOUNT_DEACTIVATED',
-          message: 'This account has been deactivated. Please contact the administrator.',
+          message: 'This account has been deactivated. Please contact the municipal administrator.',
         };
         throw err;
       }
 
+      // 5. Successful authentication & token generation
       const token = `demo-token-${matched.id}-${Date.now()}`;
       setAuthToken(token);
       mockStore.setCurrentUser(matched);
@@ -50,7 +90,7 @@ export const authService = {
 
     const response = await apiRequest<LoginResponse>('/auth/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, role }),
     });
     setAuthToken(response.token);
     return response;
@@ -63,9 +103,11 @@ export const authService = {
     password: string;
   }): Promise<{ message: string; emailVerificationSent: boolean }> {
     if (ENV.IS_DEMO) {
-      // Validate uniqueness
-      const users = mockStore.getUsers();
-      if (users.some((u) => u.email.toLowerCase() === data.email.toLowerCase())) {
+      const cleanEmail = data.email.trim().toLowerCase();
+
+      // Validate email uniqueness against store
+      const existing = mockStore.findUserByEmail(cleanEmail);
+      if (existing) {
         const err: ApiError = {
           status: 409,
           code: 'EMAIL_ALREADY_EXISTS',
@@ -74,6 +116,23 @@ export const authService = {
         };
         throw err;
       }
+
+      // Compute secure salted password hash
+      const passwordHash = await hashPassword(data.password);
+
+      // Create and persist new Citizen user in the mock database store
+      const newUser: User = {
+        id: `usr-cit-${Date.now()}`,
+        fullName: data.fullName.trim(),
+        email: cleanEmail,
+        phone: data.phone.trim(),
+        role: 'CITIZEN',
+        emailVerified: true,
+        accountStatus: 'ACTIVE',
+        createdAt: new Date().toISOString(),
+      };
+
+      mockStore.registerUser(newUser, passwordHash);
 
       return {
         message: 'Registration successful. A verification link has been sent to your email address.',
@@ -97,6 +156,7 @@ export const authService = {
         };
         throw err;
       }
+      mockStore.verifyUserEmail(token);
       return {
         success: true,
         message: 'Your email has been successfully verified! You can now sign in to submit complaints.',
@@ -138,6 +198,11 @@ export const authService = {
           message: 'Password reset link has expired. Please request a new link.',
         };
         throw err;
+      }
+      const newHash = await hashPassword(newPassword);
+      const currentUser = mockStore.getCurrentUser();
+      if (currentUser) {
+        mockStore.setUserPassword(currentUser.id, newHash);
       }
       return { message: 'Your password has been reset successfully. Please log in with your new credentials.' };
     }

@@ -18,7 +18,7 @@
     --civic-surface: #FFFFFF;
     --civic-border: #E2E8F0;
     --civic-text: #0F172A;
-    --civic-muted: #64748B;
+    --civic-muted: #475569;
   }
 
   .dark {
@@ -34,6 +34,8 @@
 
   body {
     font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.5;
     color: #0F172A;
     background-color: #F8FAFC;
     -webkit-font-smoothing: antialiased;

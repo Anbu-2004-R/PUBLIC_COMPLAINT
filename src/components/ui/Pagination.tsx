@@ -26,12 +26,12 @@ export function Pagination({
 
   return (
     <div
-      className={`flex flex-col sm:flex-row items-center justify-between gap-3 py-3 px-4 border-t border-slate-200 dark:border-[#29384D] text-xs text-slate-500 dark:text-slate-400 ${className}`}
+      className={`flex flex-col sm:flex-row items-center justify-between gap-3 py-3.5 px-4 border-t border-slate-200 dark:border-[#29384D] text-sm text-slate-600 dark:text-slate-300 ${className}`}
     >
       <div>
-        Showing <span className="font-semibold text-slate-900 dark:text-slate-200 tabular-nums">{startItem}</span> to{' '}
-        <span className="font-semibold text-slate-900 dark:text-slate-200 tabular-nums">{endItem}</span> of{' '}
-        <span className="font-semibold text-slate-900 dark:text-slate-200 tabular-nums">{totalItems}</span> records
+        Showing <span className="font-semibold text-slate-900 dark:text-slate-100 tabular-nums">{startItem}</span> to{' '}
+        <span className="font-semibold text-slate-900 dark:text-slate-100 tabular-nums">{endItem}</span> of{' '}
+        <span className="font-semibold text-slate-900 dark:text-slate-100 tabular-nums">{totalItems}</span> records
       </div>
 
       <div className="flex items-center gap-1.5">
@@ -46,7 +46,7 @@ export function Pagination({
           Previous
         </Button>
 
-        <span className="px-3 py-1 text-slate-700 dark:text-slate-300 font-medium tabular-nums">
+        <span className="px-3 py-1 text-slate-800 dark:text-slate-200 text-sm font-medium tabular-nums">
           Page {currentPage} of {Math.max(totalPages, 1)}
         </span>
 

@@ -24,6 +24,9 @@ import {
   Sparkles,
   ShieldAlert,
   Check,
+  FileText,
+  Building2,
+  Activity,
 } from 'lucide-react';
 
 export function LoginPage() {
@@ -31,15 +34,25 @@ export function LoginPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const redirectPath = searchParams.get('redirect');
+  const queryEmail = searchParams.get('email');
 
   // Role selection state (Citizen, Officer, Admin)
   const [selectedRole, setSelectedRole] = useState<UserRole>('CITIZEN');
-  const [email, setEmail] = useState('citizen@civicpulse.org');
-  const [password, setPassword] = useState('DemoPass123!');
+  const [email, setEmail] = useState(() => queryEmail || 'citizen@civicpulse.org');
+  const [password, setPassword] = useState(() => (queryEmail ? '' : 'DemoPass123!'));
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // If email param changes or was passed via redirect
+  useEffect(() => {
+    if (queryEmail) {
+      setEmail(queryEmail);
+      setPassword('');
+      setSelectedRole('CITIZEN');
+    }
+  }, [queryEmail]);
 
   // If already authenticated, redirect immediately to their respective workspace
   useEffect(() => {
@@ -78,7 +91,7 @@ export function LoginPage() {
     setIsLoading(true);
 
     try {
-      const loggedUser = await login(email, password);
+      const loggedUser = await login(email, password, selectedRole);
       if (redirectPath) {
         navigate(redirectPath);
       } else if (loggedUser.role === 'CITIZEN') {
@@ -150,57 +163,89 @@ export function LoginPage() {
             </div>
           </div>
 
-          {/* Live Mock Grievance Card Showcase */}
-          <div className="relative z-10 my-6 max-w-xl">
-            <div className="bg-[#152238]/90 backdrop-blur-md rounded-2xl border border-[#29384D] p-4 sm:p-5 shadow-xl space-y-3.5">
-              <div className="flex items-center justify-between pb-3 border-b border-[#29384D] text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono font-bold text-[#2DD4BF] bg-[#0B1220] px-2 py-0.5 rounded border border-[#29384D]">
-                    CP-2026-1042
-                  </span>
-                  <span className="text-slate-300 font-medium">Roads & Civil Infrastructure</span>
+          {/* Application Overview: Transparent Governance */}
+          <div className="relative z-10 my-6 max-w-xl w-full">
+            <div className="bg-[#152238]/90 backdrop-blur-md rounded-2xl border border-[#29384D] p-5 sm:p-6 shadow-xl space-y-4">
+              {/* Card Header: Heading & Subtitle */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-[#29384D] gap-2">
+                <div>
+                  <div className="inline-flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#2DD4BF] animate-pulse" />
+                    <h3 className="text-base sm:text-lg font-bold text-white font-display tracking-tight">
+                      Transparent Governance
+                    </h3>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-300 mt-0.5">
+                    One platform. Every complaint. Accountable action.
+                  </p>
                 </div>
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold text-[11px]">
-                  <CheckCircle2 className="w-3 h-3" />
-                  Resolved — Awaiting Citizen Feedback
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-teal-500/15 text-[#2DD4BF] border border-teal-500/30 font-semibold text-xs shrink-0 self-start sm:self-auto">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#2DD4BF]" />
+                  Citizen Accountability
                 </span>
               </div>
 
-              <div>
-                <h4 className="text-sm font-semibold text-white">Collapsed asphalt trench on Ring Road Bus Bay</h4>
-                <p className="text-xs text-slate-300 mt-1">
-                  East Zone · Ward 12 (Indira Nagar) · Assigned to Er. Rajesh Kumar (PWD)
-                </p>
-              </div>
+              {/* 4 Feature Sections in a Balanced 2x2 Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {/* 1. Easy Grievance Reporting */}
+                <div className="bg-[#0B1220]/75 rounded-xl border border-[#29384D] p-3.5 flex items-start gap-3 transition-colors hover:border-teal-500/40">
+                  <div className="w-8 h-8 rounded-lg bg-teal-500/15 border border-teal-500/30 text-[#2DD4BF] flex items-center justify-center shrink-0 mt-0.5">
+                    <FileText className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <h4 className="text-xs sm:text-sm font-bold text-white leading-snug">
+                      Easy Grievance Reporting
+                    </h4>
+                    <p className="text-xs text-slate-300 leading-relaxed mt-1">
+                      Citizens can submit public complaints with location details and supporting evidence.
+                    </p>
+                  </div>
+                </div>
 
-              {/* Progress Milestones Bar */}
-              <div className="grid grid-cols-4 gap-2 pt-1 text-[11px]">
-                <div className="bg-[#0B1220]/80 p-2 rounded-lg border border-[#29384D] text-center">
-                  <p className="text-slate-400 text-[10px]">Submitted</p>
-                  <p className="font-semibold text-white mt-0.5">Oct 14</p>
+                {/* 2. Smart Department Assignment */}
+                <div className="bg-[#0B1220]/75 rounded-xl border border-[#29384D] p-3.5 flex items-start gap-3 transition-colors hover:border-teal-500/40">
+                  <div className="w-8 h-8 rounded-lg bg-indigo-500/15 border border-indigo-500/30 text-indigo-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <Building2 className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <h4 className="text-xs sm:text-sm font-bold text-white leading-snug">
+                      Smart Department Assignment
+                    </h4>
+                    <p className="text-xs text-slate-300 leading-relaxed mt-1">
+                      Complaints are routed to the appropriate department and eligible officer.
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-[#0B1220]/80 p-2 rounded-lg border border-[#29384D] text-center">
-                  <p className="text-slate-400 text-[10px]">Acknowledged</p>
-                  <p className="font-semibold text-white mt-0.5">&lt; 15 min</p>
-                </div>
-                <div className="bg-[#0B1220]/80 p-2 rounded-lg border border-[#29384D] text-center">
-                  <p className="text-slate-400 text-[10px]">Admin Approved</p>
-                  <p className="font-semibold text-emerald-400 mt-0.5">Verified</p>
-                </div>
-                <div className="bg-teal-500/15 p-2 rounded-lg border border-teal-500/30 text-center">
-                  <p className="text-[#2DD4BF] text-[10px] font-semibold">Citizen Window</p>
-                  <p className="font-bold text-white mt-0.5">5d left</p>
-                </div>
-              </div>
 
-              <div className="flex items-center justify-between text-xs text-slate-300 pt-1">
-                <span className="flex items-center gap-1.5 text-slate-400">
-                  <Clock className="w-3.5 h-3.5 text-[#2DD4BF]" />
-                  Target SLA: 24h · Resolved in 18h
-                </span>
-                <span className="text-[11px] text-[#2DD4BF] font-medium">
-                  7-Day Citizen Recourse Active
-                </span>
+                {/* 3. Complaint Tracking */}
+                <div className="bg-[#0B1220]/75 rounded-xl border border-[#29384D] p-3.5 flex items-start gap-3 transition-colors hover:border-teal-500/40">
+                  <div className="w-8 h-8 rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <Activity className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <h4 className="text-xs sm:text-sm font-bold text-white leading-snug">
+                      Complaint Tracking
+                    </h4>
+                    <p className="text-xs text-slate-300 leading-relaxed mt-1">
+                      Users can follow complaint status, progress updates, and decisions.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 4. Transparent Resolution */}
+                <div className="bg-[#0B1220]/75 rounded-xl border border-[#29384D] p-3.5 flex items-start gap-3 transition-colors hover:border-teal-500/40">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <h4 className="text-xs sm:text-sm font-bold text-white leading-snug">
+                      Transparent Resolution
+                    </h4>
+                    <p className="text-xs text-slate-300 leading-relaxed mt-1">
+                      Officers submit resolution reports, and administrators review them before the citizen feedback or objection stage.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

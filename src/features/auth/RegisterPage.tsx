@@ -44,7 +44,10 @@ const registerSchema = z
 
 type RegisterFormData = z.infer<typeof registerSchema>;
 
+import { useAuth } from '../../app/AuthContext';
+
 export function RegisterPage() {
+  const { logout } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -68,6 +71,9 @@ export function RegisterPage() {
   const onSubmit = async (data: RegisterFormData) => {
     setServerError(null);
     try {
+      // Clear any prior active session so user can log in with new credentials cleanly
+      await logout();
+
       await authService.register({
         fullName: data.fullName,
         email: data.email,
@@ -108,7 +114,7 @@ export function RegisterPage() {
                   Simulate Email Link Click (Demo Mode)
                 </Button>
               </Link>
-              <Link to={ROUTES.LOGIN}>
+              <Link to={`${ROUTES.LOGIN}?email=${encodeURIComponent(registeredEmail)}`}>
                 <Button variant="ghost" size="sm" className="w-full text-slate-500">
                   Return to Sign In
                 </Button>

@@ -100,10 +100,10 @@ export function AdminOverview() {
       {/* Header: Compact on Single Row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-[#29384D]">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#F1F5F9] font-display">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-[#F1F5F9] font-display tracking-tight">
             Administrator Oversight Console
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
             System-wide operational tracking, departmental workload compliance, and resolution reviews.
           </p>
         </div>
@@ -122,93 +122,93 @@ export function AdminOverview() {
       </div>
 
       {/* KPI Stats Strip: 7 Metric Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
-        <div className="p-3 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-400 block">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+        <div className="p-3.5 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
             Total Cases
           </span>
-          <p className="text-xl font-bold text-slate-900 dark:text-[#F1F5F9] tabular-nums mt-0.5">{summary.total}</p>
-          <span className="text-[10px] text-slate-400 dark:text-slate-500">Registry total</span>
+          <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-[#F1F5F9] tabular-nums mt-1">{summary.total}</p>
+          <span className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 block">Registry total</span>
         </div>
 
-        <div className="p-3 bg-white dark:bg-[#152238] border border-indigo-200 dark:border-indigo-800/60 rounded-xl shadow-xs transition-colors">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 block">
+        <div className="p-3.5 bg-white dark:bg-[#152238] border border-indigo-200 dark:border-indigo-800/60 rounded-xl shadow-xs transition-colors">
+          <span className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-400 block">
             In Progress
           </span>
-          <p className="text-xl font-bold text-indigo-900 dark:text-indigo-300 tabular-nums mt-0.5">{summary.inProgress}</p>
-          <span className="text-[10px] text-indigo-700 dark:text-indigo-400">Active</span>
+          <p className="text-2xl sm:text-3xl font-extrabold text-indigo-900 dark:text-indigo-300 tabular-nums mt-1">{summary.inProgress}</p>
+          <span className="text-xs text-indigo-700 dark:text-indigo-400 mt-0.5 block">Active</span>
         </div>
 
-        <div className="p-3 bg-white dark:bg-[#152238] border border-amber-200 dark:border-amber-800/60 rounded-xl shadow-xs transition-colors">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-400 block">
+        <div className="p-3.5 bg-white dark:bg-[#152238] border border-amber-200 dark:border-amber-800/60 rounded-xl shadow-xs transition-colors">
+          <span className="text-xs font-bold uppercase tracking-wider text-amber-700 dark:text-amber-400 block">
             Unassigned
           </span>
-          <p className="text-xl font-bold text-amber-900 dark:text-amber-300 tabular-nums mt-0.5">{summary.unassigned}</p>
-          <span className="text-[10px] text-amber-700 dark:text-amber-400">Needs routing</span>
+          <p className="text-2xl sm:text-3xl font-extrabold text-amber-900 dark:text-amber-300 tabular-nums mt-1">{summary.unassigned}</p>
+          <span className="text-xs text-amber-700 dark:text-amber-400 mt-0.5 block">Needs routing</span>
         </div>
 
-        <div className="p-3 bg-white dark:bg-[#152238] border border-purple-200 dark:border-purple-800/60 rounded-xl shadow-xs transition-colors">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-purple-700 dark:text-purple-400 block">
+        <div className="p-3.5 bg-white dark:bg-[#152238] border border-purple-200 dark:border-purple-800/60 rounded-xl shadow-xs transition-colors">
+          <span className="text-xs font-bold uppercase tracking-wider text-purple-700 dark:text-purple-400 block">
             Reviews Due
           </span>
-          <p className="text-xl font-bold text-purple-900 dark:text-purple-300 tabular-nums mt-0.5">{summary.awaitingReview}</p>
-          <span className="text-[10px] text-purple-700 dark:text-purple-400">Reports filed</span>
+          <p className="text-2xl sm:text-3xl font-extrabold text-purple-900 dark:text-purple-300 tabular-nums mt-1">{summary.awaitingReview}</p>
+          <span className="text-xs text-purple-700 dark:text-purple-400 mt-0.5 block">Reports filed</span>
         </div>
 
-        <div className="p-3 bg-white dark:bg-[#152238] border border-teal-200 dark:border-teal-800/60 rounded-xl shadow-xs transition-colors">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-teal-700 dark:text-teal-400 block">
+        <div className="p-3.5 bg-white dark:bg-[#152238] border border-teal-200 dark:border-teal-800/60 rounded-xl shadow-xs transition-colors">
+          <span className="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-400 block">
             Citizen Window
           </span>
-          <p className="text-xl font-bold text-teal-900 dark:text-teal-300 tabular-nums mt-0.5">
+          <p className="text-2xl sm:text-3xl font-extrabold text-teal-900 dark:text-teal-300 tabular-nums mt-1">
             {summary.resolvedAwaitingFeedback}
           </p>
-          <span className="text-[10px] text-teal-700 dark:text-teal-400">7-day recourse</span>
+          <span className="text-xs text-teal-700 dark:text-teal-400 mt-0.5 block">7-day recourse</span>
         </div>
 
-        <div className="p-3 bg-white dark:bg-[#152238] border border-rose-200 dark:border-rose-800/60 rounded-xl shadow-xs transition-colors">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-rose-700 dark:text-rose-400 block">
+        <div className="p-3.5 bg-white dark:bg-[#152238] border border-rose-200 dark:border-rose-800/60 rounded-xl shadow-xs transition-colors">
+          <span className="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400 block">
             Overdue
           </span>
-          <p className="text-xl font-bold text-rose-900 dark:text-rose-300 tabular-nums mt-0.5">{summary.overdue}</p>
-          <span className="text-[10px] text-rose-700 dark:text-rose-400">Target missed</span>
+          <p className="text-2xl sm:text-3xl font-extrabold text-rose-900 dark:text-rose-300 tabular-nums mt-1">{summary.overdue}</p>
+          <span className="text-xs text-rose-700 dark:text-rose-400 mt-0.5 block">Target missed</span>
         </div>
 
-        <div className="p-3 bg-white dark:bg-[#152238] border border-emerald-200 dark:border-emerald-800/60 rounded-xl shadow-xs transition-colors">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block">
+        <div className="p-3.5 bg-white dark:bg-[#152238] border border-emerald-200 dark:border-emerald-800/60 rounded-xl shadow-xs transition-colors">
+          <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block">
             Compliance
           </span>
-          <p className="text-xl font-bold text-emerald-900 dark:text-emerald-300 tabular-nums mt-0.5">
+          <p className="text-2xl sm:text-3xl font-extrabold text-emerald-900 dark:text-emerald-300 tabular-nums mt-1">
             {summary.complianceRate}%
           </p>
-          <span className="text-[10px] text-emerald-700 dark:text-emerald-400">SLA adherence</span>
+          <span className="text-xs text-emerald-700 dark:text-emerald-400 mt-0.5 block">SLA adherence</span>
         </div>
       </div>
 
       {/* Unassigned Emergency Queue Alert */}
       {summary.unassigned > 0 && (
-        <div className="p-3.5 bg-amber-50/90 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-xl space-y-2.5 transition-colors">
+        <div className="p-4 bg-amber-50/90 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-xl space-y-3 transition-colors">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              <h2 className="text-xs font-bold text-amber-950 dark:text-amber-200 uppercase tracking-wide">
+              <ShieldAlert className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              <h2 className="text-sm font-bold text-amber-950 dark:text-amber-200 uppercase tracking-wide">
                 Unassigned Queue Alert ({summary.unassigned} grievances awaiting routing)
               </h2>
             </div>
             <Link
               to={ROUTES.ADMIN_UNASSIGNED}
-              className="text-xs font-bold text-amber-900 dark:text-amber-300 hover:underline flex items-center gap-1"
+              className="text-sm font-semibold text-amber-900 dark:text-amber-300 hover:underline flex items-center gap-1"
             >
               <span>Full Queue</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <div className="divide-y divide-amber-200/60 dark:divide-amber-800/50 bg-white/90 dark:bg-[#152238] rounded-lg border border-amber-200 dark:border-amber-800/60 overflow-hidden text-xs">
+          <div className="divide-y divide-amber-200/60 dark:divide-amber-800/50 bg-white/90 dark:bg-[#152238] rounded-lg border border-amber-200 dark:border-amber-800/60 overflow-hidden text-sm">
             {unassignedList.map((c) => (
-              <div key={c.id} className="p-2.5 flex items-center justify-between gap-3">
+              <div key={c.id} className="p-3 flex items-center justify-between gap-3">
                 <div className="min-w-0">
-                  <span className="font-mono font-bold text-slate-900 dark:text-slate-100 mr-2">{c.id}</span>
-                  <span className="font-semibold text-slate-800 dark:text-slate-200 truncate">{c.title}</span>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                  <span className="font-mono font-bold text-slate-900 dark:text-slate-100 mr-2 text-sm">{c.id}</span>
+                  <span className="font-semibold text-slate-800 dark:text-slate-200 truncate text-sm">{c.title}</span>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     {c.categoryName} · {c.wardZoneName}
                   </p>
                 </div>
@@ -226,21 +226,21 @@ export function AdminOverview() {
       {/* Recharts Analytics Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Status Distribution Pie Chart */}
-        <div className="bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl p-4 shadow-2xs space-y-3 transition-colors">
+        <div className="bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl p-5 shadow-2xs space-y-3 transition-colors">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-sm font-bold text-slate-900 dark:text-[#F1F5F9]">Complaint Status Distribution</h2>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">Live breakdown across lifecycle stages</p>
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-[#F1F5F9] font-display">Complaint Status Distribution</h2>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Live breakdown across lifecycle stages</p>
             </div>
             <Link
               to={ROUTES.ADMIN_ANALYTICS}
-              className="text-xs font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 hover:underline"
+              className="text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 hover:underline"
             >
               Full Analytics →
             </Link>
           </div>
 
-          <div className="h-60 w-full">
+          <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -263,45 +263,45 @@ export function AdminOverview() {
                     borderColor: tooltipBorder,
                     color: tooltipText,
                     borderRadius: '8px',
-                    fontSize: '12px',
+                    fontSize: '13px',
                   }}
                 />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: '11px', color: tooltipText }} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', color: tooltipText }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Department Workload Bar Chart */}
-        <div className="bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl p-4 shadow-2xs space-y-3 transition-colors">
+        <div className="bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl p-5 shadow-2xs space-y-3 transition-colors">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-sm font-bold text-slate-900 dark:text-[#F1F5F9]">Department Workload Distribution</h2>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">Active vs. resolved cases across divisions</p>
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-[#F1F5F9] font-display">Department Workload Distribution</h2>
+              <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Active vs. resolved cases across divisions</p>
             </div>
             <Link
               to={ROUTES.ADMIN_ANALYTICS}
-              className="text-xs font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 hover:underline"
+              className="text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 hover:underline"
             >
               View Trends →
             </Link>
           </div>
 
-          <div className="h-60 w-full">
+          <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={deptWorkload} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <XAxis dataKey="department" stroke={axisColor} fontSize={11} />
-                <YAxis stroke={axisColor} fontSize={11} allowDecimals={false} />
+                <XAxis dataKey="department" stroke={axisColor} fontSize={12} />
+                <YAxis stroke={axisColor} fontSize={12} allowDecimals={false} />
                 <Tooltip
                   contentStyle={{
                     backgroundColor: tooltipBg,
                     borderColor: tooltipBorder,
                     color: tooltipText,
                     borderRadius: '8px',
-                    fontSize: '12px',
+                    fontSize: '13px',
                   }}
                 />
-                <Legend wrapperStyle={{ fontSize: '11px', color: tooltipText }} />
+                <Legend wrapperStyle={{ fontSize: '12px', color: tooltipText }} />
                 <Bar
                   dataKey="active"
                   name="Active Cases"

@@ -87,10 +87,10 @@ export function CitizenDashboard() {
       {/* Welcome & Primary CTA on single row */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-[#29384D]">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#F1F5F9] font-display">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-[#F1F5F9] font-display tracking-tight">
             Welcome, {user?.fullName}
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-1">
             Citizen Grievance Workspace · Track status updates, engineer field logs, and site resolution reviews.
           </p>
         </div>
@@ -104,77 +104,77 @@ export function CitizenDashboard() {
 
       {/* Metrics Row: Compact & Balanced */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="p-3.5 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
-          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-1">
-            <span className="text-[11px] font-semibold uppercase tracking-wider">Total Grievances</span>
+        <div className="p-4 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-1.5">
+            <span className="text-xs font-bold uppercase tracking-wider">Total Grievances</span>
             <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-[#1E2E4A] flex items-center justify-center text-slate-600 dark:text-slate-300">
-              <FileText className="w-3.5 h-3.5" />
+              <FileText className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-2xl font-extrabold text-[#0B1220] dark:text-[#F1F5F9] tabular-nums font-display">
+          <p className="text-2xl sm:text-3xl font-extrabold text-[#0B1220] dark:text-[#F1F5F9] tabular-nums font-display">
             {totalSubmitted}
           </p>
-          <span className="text-[10px] text-slate-400 dark:text-slate-500 block">Registered in CivicPulse</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400 block mt-0.5">Registered in CivicPulse</span>
         </div>
 
-        <div className="p-3.5 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
-          <div className="flex items-center justify-between text-indigo-600 dark:text-indigo-400 mb-1">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <div className="p-4 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
+          <div className="flex items-center justify-between text-indigo-600 dark:text-indigo-400 mb-1.5">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
               In Progress
             </span>
             <div className="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-              <Clock className="w-3.5 h-3.5" />
+              <Clock className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-2xl font-extrabold text-indigo-950 dark:text-indigo-200 tabular-nums font-display">
+          <p className="text-2xl sm:text-3xl font-extrabold text-indigo-950 dark:text-indigo-200 tabular-nums font-display">
             {inProgress}
           </p>
-          <span className="text-[10px] text-slate-400 dark:text-slate-500 block">Active field remediation</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400 block mt-0.5">Active field remediation</span>
         </div>
 
-        <div className="p-3.5 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
-          <div className="flex items-center justify-between text-amber-600 dark:text-amber-400 mb-1">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <div className="p-4 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
+          <div className="flex items-center justify-between text-amber-600 dark:text-amber-400 mb-1.5">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
               Action Required
             </span>
             <div className="w-7 h-7 rounded-lg bg-amber-50 dark:bg-amber-950/50 flex items-center justify-center text-amber-600 dark:text-amber-400">
-              <AlertCircle className="w-3.5 h-3.5" />
+              <AlertCircle className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-2xl font-extrabold text-amber-950 dark:text-amber-200 tabular-nums font-display">
+          <p className="text-2xl sm:text-3xl font-extrabold text-amber-950 dark:text-amber-200 tabular-nums font-display">
             {actionRequired}
           </p>
-          <span className="text-[10px] text-slate-400 dark:text-slate-500 block">Clarification requested</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400 block mt-0.5">Clarification requested</span>
         </div>
 
-        <div className="p-3.5 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
-          <div className="flex items-center justify-between text-teal-600 dark:text-teal-400 mb-1">
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+        <div className="p-4 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
+          <div className="flex items-center justify-between text-teal-600 dark:text-teal-400 mb-1.5">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
               7-Day Verification
             </span>
             <div className="w-7 h-7 rounded-lg bg-teal-50 dark:bg-teal-950/50 flex items-center justify-center text-teal-600 dark:text-teal-400">
-              <CheckCircle2 className="w-3.5 h-3.5" />
+              <CheckCircle2 className="w-4 h-4" />
             </div>
           </div>
-          <p className="text-2xl font-extrabold text-teal-950 dark:text-teal-200 tabular-nums font-display">
+          <p className="text-2xl sm:text-3xl font-extrabold text-teal-950 dark:text-teal-200 tabular-nums font-display">
             {awaitingFeedback}
           </p>
-          <span className="text-[10px] text-slate-400 dark:text-slate-500 block">Objection window open</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400 block mt-0.5">Objection window open</span>
         </div>
       </div>
 
       {/* Action Required Banner (if any) */}
       {actionRequired > 0 && (
-        <div className="p-3.5 bg-amber-50/90 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-xl flex items-center justify-between gap-3 text-xs">
+        <div className="p-4 bg-amber-50/90 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 rounded-xl flex items-center justify-between gap-3 text-sm">
           <div className="flex items-center gap-2.5">
-            <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-            <p className="text-amber-900 dark:text-amber-200">
+            <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
+            <p className="text-amber-900 dark:text-amber-200 leading-normal">
               <strong className="font-semibold">Action Requested:</strong> Department officers have requested
               additional details or photos on {actionRequired} case.
             </p>
           </div>
           <Link to={ROUTES.CITIZEN_COMPLAINTS} className="shrink-0">
-            <Button size="sm" variant="outline" className="text-xs py-1 h-7 bg-white dark:bg-[#152238]">
+            <Button size="sm" variant="outline" className="text-xs py-1 h-8 bg-white dark:bg-[#152238]">
               View Cases
             </Button>
           </Link>
@@ -183,19 +183,21 @@ export function CitizenDashboard() {
 
       {/* Recently Updated Complaints Table (Fixed Layout, Zero Outer Overflow) */}
       <div className="bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-2xs overflow-hidden transition-colors">
-        <div className="px-4 py-3 border-b border-slate-100 dark:border-[#29384D] flex items-center justify-between">
+        <div className="px-5 py-3.5 border-b border-slate-100 dark:border-[#29384D] flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-bold text-slate-900 dark:text-[#F1F5F9]">Recently Updated Complaints</h2>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+            <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-[#F1F5F9] font-display">
+              Recently Updated Complaints
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
               Live tracking of field inspections, officer updates, and closure reviews
             </p>
           </div>
           <Link
             to={ROUTES.CITIZEN_COMPLAINTS}
-            className="text-xs font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 flex items-center gap-1"
+            className="text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 flex items-center gap-1.5"
           >
             <span>View all ({totalSubmitted})</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
@@ -210,16 +212,16 @@ export function CitizenDashboard() {
           </div>
         ) : (
           <div className="overflow-x-auto w-full">
-            <table className="w-full text-left text-xs table-fixed">
-              <thead className="bg-slate-50 dark:bg-[#121E33] border-b border-slate-200 dark:border-[#29384D] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold text-[11px]">
+            <table className="w-full text-left text-sm table-fixed">
+              <thead className="bg-slate-50 dark:bg-[#121E33] border-b border-slate-200 dark:border-[#29384D] text-slate-600 dark:text-slate-300 uppercase tracking-wider font-semibold text-xs">
                 <tr>
-                  <th className="w-28 py-2.5 px-3">Tracking ID</th>
-                  <th className="w-auto min-w-[200px] py-2.5 px-3">Title & Category</th>
-                  <th className="w-32 py-2.5 px-3">Ward / Zone</th>
-                  <th className="w-24 py-2.5 px-3">Priority</th>
-                  <th className="w-36 py-2.5 px-3">Status</th>
-                  <th className="w-28 py-2.5 px-3">Latest Update</th>
-                  <th className="w-20 py-2.5 px-3 text-right">Action</th>
+                  <th className="w-28 py-3 px-3.5">Tracking ID</th>
+                  <th className="w-auto min-w-[200px] py-3 px-3.5">Title & Category</th>
+                  <th className="w-32 py-3 px-3.5">Ward / Zone</th>
+                  <th className="w-24 py-3 px-3.5">Priority</th>
+                  <th className="w-36 py-3 px-3.5">Status</th>
+                  <th className="w-28 py-3 px-3.5">Latest Update</th>
+                  <th className="w-20 py-3 px-3.5 text-right">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-[#29384D]">
@@ -228,40 +230,40 @@ export function CitizenDashboard() {
                     key={item.id}
                     className="hover:bg-slate-50/70 dark:hover:bg-[#1A2C47] transition-colors"
                   >
-                    <td className="py-3 px-3 font-mono font-semibold text-slate-900 dark:text-slate-100 tabular-nums whitespace-nowrap">
+                    <td className="py-3 px-3.5 font-mono font-semibold text-sm text-slate-900 dark:text-slate-100 tabular-nums whitespace-nowrap">
                       {item.id}
                     </td>
-                    <td className="py-3 px-3 min-w-0">
+                    <td className="py-3 px-3.5 min-w-0">
                       <p
-                        className="font-semibold text-slate-900 dark:text-slate-100 truncate"
+                        className="font-semibold text-sm text-slate-900 dark:text-slate-100 truncate"
                         title={item.title}
                       >
                         {item.title}
                       </p>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate" title={item.categoryName}>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5" title={item.categoryName}>
                         {item.categoryName}
                       </p>
                     </td>
-                    <td className="py-3 px-3 text-slate-600 dark:text-slate-300 truncate" title={item.wardZoneName}>
+                    <td className="py-3 px-3.5 text-sm text-slate-600 dark:text-slate-300 truncate" title={item.wardZoneName}>
                       {item.wardZoneName}
                     </td>
-                    <td className="py-3 px-3 whitespace-nowrap">
+                    <td className="py-3 px-3.5 whitespace-nowrap">
                       <PriorityBadge priority={item.priority} size="sm" />
                     </td>
-                    <td className="py-3 px-3 whitespace-nowrap">
+                    <td className="py-3 px-3.5 whitespace-nowrap">
                       <StatusBadge status={item.status} size="sm" />
                     </td>
-                    <td className="py-3 px-3 text-slate-500 dark:text-slate-400 whitespace-nowrap text-[11px]">
+                    <td className="py-3 px-3.5 text-slate-500 dark:text-slate-400 whitespace-nowrap text-xs">
                       {formatRelativeTime(item.updatedAt)}
                     </td>
-                    <td className="py-3 px-3 text-right whitespace-nowrap">
+                    <td className="py-3 px-3.5 text-right whitespace-nowrap">
                       <Link
                         to={ROUTES.CITIZEN_COMPLAINT_DETAIL(item.id)}
-                        className="inline-flex items-center gap-1 font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 text-xs cursor-pointer"
+                        className="inline-flex items-center gap-1 font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 text-sm cursor-pointer"
                         title={`Open grievance details for ${item.id}`}
                       >
                         <span>Open</span>
-                        <ExternalLink className="w-3 h-3" />
+                        <ExternalLink className="w-3.5 h-3.5" />
                       </Link>
                     </td>
                   </tr>
@@ -274,30 +276,30 @@ export function CitizenDashboard() {
 
       {/* Recent Notifications Strip */}
       {notifications.length > 0 && (
-        <div className="bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl p-4 shadow-2xs transition-colors">
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-xs font-bold text-slate-900 dark:text-[#F1F5F9] uppercase tracking-wider flex items-center gap-2">
-              <Bell className="w-3.5 h-3.5 text-teal-500" />
+        <div className="bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl p-4 sm:p-5 shadow-2xs transition-colors">
+          <div className="flex items-center justify-between mb-3.5">
+            <h2 className="text-sm font-bold text-slate-900 dark:text-[#F1F5F9] uppercase tracking-wider flex items-center gap-2">
+              <Bell className="w-4 h-4 text-teal-500" />
               Recent Field Alerts & Updates
             </h2>
             <Link
               to={ROUTES.NOTIFICATIONS}
-              className="text-xs font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 hover:underline"
+              className="text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 hover:underline"
             >
               All Notifications
             </Link>
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {notifications.map((n) => (
               <div
                 key={n.id}
-                className="flex items-start justify-between gap-3 p-2.5 rounded-lg bg-slate-50 dark:bg-[#121E33] border border-slate-100 dark:border-[#29384D] text-xs"
+                className="flex items-start justify-between gap-3 p-3 rounded-lg bg-slate-50 dark:bg-[#121E33] border border-slate-100 dark:border-[#29384D] text-sm"
               >
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold text-slate-900 dark:text-slate-100 truncate">{n.title}</p>
-                  <p className="text-slate-600 dark:text-slate-300 text-[11px] mt-0.5 line-clamp-1">{n.message}</p>
+                  <p className="font-semibold text-sm text-slate-900 dark:text-slate-100 truncate">{n.title}</p>
+                  <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-[13px] mt-0.5 line-clamp-1">{n.message}</p>
                 </div>
-                <span className="text-[10px] text-slate-400 dark:text-slate-500 shrink-0 whitespace-nowrap">
+                <span className="text-xs text-slate-400 dark:text-slate-500 shrink-0 whitespace-nowrap">
                   {formatRelativeTime(n.createdAt)}
                 </span>
               </div>

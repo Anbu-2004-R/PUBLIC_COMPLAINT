@@ -18,8 +18,11 @@ import { DEMO_USERS, INITIAL_COMPLAINTS, INITIAL_NOTIFICATIONS, INITIAL_AUDIT_LO
 import { CATEGORIES, DEPARTMENTS, WARDS_ZONES, Department, Category, WardZone } from '../config/referenceData';
 import { ROLE_STATUS_ACTIONS, PRIORITY_DEFINITIONS } from '../config/workflow';
 
+import { DEFAULT_DEMO_PASSWORD_HASH } from '../utils/security';
+
 class MockStore {
   private users: User[] = [...DEMO_USERS];
+  private userPasswords: Map<string, string> = new Map();
   private complaints: Complaint[] = [...INITIAL_COMPLAINTS];
   private notifications: NotificationItem[] = [...INITIAL_NOTIFICATIONS];
   private auditLogs: AuditLogItem[] = [...INITIAL_AUDIT_LOGS];
@@ -41,6 +44,72 @@ class MockStore {
 
   getUsers(): User[] {
     return [...this.users];
+  }
+
+  findUserByEmail(email: string): User | undefined {
+    if (!email) return undefined;
+    const clean = email.trim().toLowerCase();
+    const normalized = clean.replace('@civictrack.org', '@civicpulse.org');
+    return this.users.find((u) => {
+      const uEmail = u.email.trim().toLowerCase();
+      return uEmail === clean || uEmail === normalized || uEmail.replace('@civictrack.org', '@civicpulse.org') === normalized;
+    });
+  }
+
+  registerUser(user: User, passwordHash: string): User {
+    this.users.push(user);
+    this.userPasswords.set(user.id, passwordHash);
+    this.userPasswords.set(user.email.toLowerCase().trim(), passwordHash);
+
+    this.addAuditLog({
+      actorId: user.id,
+      actorName: user.fullName,
+      actorRole: user.role,
+      action: 'USER_REGISTERED',
+      entityType: 'User',
+      entityId: user.id,
+      reason: 'Citizen online self-registration',
+      beforeValue: 'NULL',
+      afterValue: `USER_CREATED [email=${user.email}, role=${user.role}, phone=${user.phone}]`,
+    });
+
+    return { ...user };
+  }
+
+  verifyPassword(userId: string, passwordHash: string): boolean {
+    const user = this.users.find((u) => u.id === userId);
+    if (!user) return false;
+
+    // Check by ID or normalized email
+    const stored = this.userPasswords.get(userId) || this.userPasswords.get(user.email.toLowerCase().trim());
+    if (stored) {
+      return stored === passwordHash;
+    }
+
+    // Default hash fallback for initial pre-seeded demo accounts
+    return passwordHash === DEFAULT_DEMO_PASSWORD_HASH;
+  }
+
+  setUserPassword(userId: string, passwordHash: string): void {
+    this.userPasswords.set(userId, passwordHash);
+    const user = this.users.find((u) => u.id === userId);
+    if (user) {
+      this.userPasswords.set(user.email.toLowerCase().trim(), passwordHash);
+    }
+  }
+
+  verifyUserEmail(tokenOrEmail: string): boolean {
+    const clean = tokenOrEmail.trim().toLowerCase();
+    const user = this.users.find((u) => u.email.toLowerCase() === clean);
+    if (user) {
+      user.emailVerified = true;
+      return true;
+    }
+    // In simulated demo mode, activating verification token marks all unverified accounts as verified
+    this.users.forEach((u) => {
+      u.emailVerified = true;
+    });
+    return true;
   }
 
   updateUserStatus(userId: string, newStatus: 'ACTIVE' | 'DEACTIVATED', reason: string): User {

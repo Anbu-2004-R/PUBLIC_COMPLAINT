@@ -81,15 +81,15 @@ export function OfficerDashboard() {
       {/* Officer Header: Single Row with Action Button */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-[#29384D]">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#F1F5F9] font-display">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-[#F1F5F9] font-display tracking-tight">
             Officer Investigation Console
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-1">
             {user?.fullName} · {user?.departmentName || 'Department Engineer'} · Emp ID: {user?.employeeId || 'N/A'}
           </p>
         </div>
         <Link to={ROUTES.OFFICER_COMPLAINTS} className="shrink-0">
-          <Button size="md" variant="outline" className="w-full sm:w-auto shadow-xs">
+          <Button size="md" variant="outline" className="w-full sm:w-auto shadow-xs text-sm">
             View All Cases ({totalAssigned})
           </Button>
         </Link>
@@ -97,77 +97,79 @@ export function OfficerDashboard() {
 
       {/* Metrics Bar: Compact & Grid Balanced */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-        <div className="p-3.5 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
-          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-1 text-[11px] font-semibold uppercase tracking-wider">
+        <div className="p-4 bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-xs transition-colors">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 mb-1.5 text-xs font-bold uppercase tracking-wider">
             <span>Total Assigned</span>
-            <Briefcase className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
+            <Briefcase className="w-4 h-4 text-slate-400 dark:text-slate-500" />
           </div>
-          <p className="text-2xl font-extrabold text-slate-900 dark:text-[#F1F5F9] tabular-nums font-display">
+          <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-[#F1F5F9] tabular-nums font-display">
             {totalAssigned}
           </p>
-          <span className="text-[10px] text-slate-400 dark:text-slate-500">Active caseload</span>
+          <span className="text-xs text-slate-500 dark:text-slate-400 block mt-0.5">Active caseload</span>
         </div>
 
-        <div className="p-3.5 bg-white dark:bg-[#152238] border border-amber-200 dark:border-amber-800/60 rounded-xl shadow-xs transition-colors">
-          <div className="flex items-center justify-between text-amber-700 dark:text-amber-400 mb-1 text-[11px] font-semibold uppercase tracking-wider">
+        <div className="p-4 bg-white dark:bg-[#152238] border border-amber-200 dark:border-amber-800/60 rounded-xl shadow-xs transition-colors">
+          <div className="flex items-center justify-between text-amber-700 dark:text-amber-400 mb-1.5 text-xs font-bold uppercase tracking-wider">
             <span>Pending Ack</span>
-            <Clock className="w-3.5 h-3.5 text-amber-500" />
+            <Clock className="w-4 h-4 text-amber-500" />
           </div>
-          <p className="text-2xl font-extrabold text-amber-900 dark:text-amber-300 tabular-nums font-display">
+          <p className="text-2xl sm:text-3xl font-extrabold text-amber-900 dark:text-amber-300 tabular-nums font-display">
             {pendingAck}
           </p>
-          <span className="text-[10px] text-amber-700 dark:text-amber-400">Immediate action needed</span>
+          <span className="text-xs text-amber-700 dark:text-amber-400 block mt-0.5">Immediate action needed</span>
         </div>
 
-        <div className="p-3.5 bg-white dark:bg-[#152238] border border-indigo-200 dark:border-indigo-800/60 rounded-xl shadow-xs transition-colors">
-          <div className="flex items-center justify-between text-indigo-700 dark:text-indigo-400 mb-1 text-[11px] font-semibold uppercase tracking-wider">
+        <div className="p-4 bg-white dark:bg-[#152238] border border-indigo-200 dark:border-indigo-800/60 rounded-xl shadow-xs transition-colors">
+          <div className="flex items-center justify-between text-indigo-700 dark:text-indigo-400 mb-1.5 text-xs font-bold uppercase tracking-wider">
             <span>In Progress</span>
-            <CheckCircle className="w-3.5 h-3.5 text-indigo-500" />
+            <CheckCircle className="w-4 h-4 text-indigo-500" />
           </div>
-          <p className="text-2xl font-extrabold text-indigo-900 dark:text-indigo-300 tabular-nums font-display">
+          <p className="text-2xl sm:text-3xl font-extrabold text-indigo-900 dark:text-indigo-300 tabular-nums font-display">
             {inProgress}
           </p>
-          <span className="text-[10px] text-indigo-700 dark:text-indigo-400">Under remediation</span>
+          <span className="text-xs text-indigo-700 dark:text-indigo-400 block mt-0.5">Under remediation</span>
         </div>
 
-        <div className="p-3.5 bg-white dark:bg-[#152238] border border-purple-200 dark:border-purple-800/60 rounded-xl shadow-xs transition-colors">
-          <div className="flex items-center justify-between text-purple-700 dark:text-purple-400 mb-1 text-[11px] font-semibold uppercase tracking-wider">
+        <div className="p-4 bg-white dark:bg-[#152238] border border-purple-200 dark:border-purple-800/60 rounded-xl shadow-xs transition-colors">
+          <div className="flex items-center justify-between text-purple-700 dark:text-purple-400 mb-1.5 text-xs font-bold uppercase tracking-wider">
             <span>Awaiting Review</span>
-            <ClipboardCheck className="w-3.5 h-3.5 text-purple-500" />
+            <ClipboardCheck className="w-4 h-4 text-purple-500" />
           </div>
-          <p className="text-2xl font-extrabold text-purple-900 dark:text-purple-300 tabular-nums font-display">
+          <p className="text-2xl sm:text-3xl font-extrabold text-purple-900 dark:text-purple-300 tabular-nums font-display">
             {awaitingReview}
           </p>
-          <span className="text-[10px] text-purple-700 dark:text-purple-400">Admin review pending</span>
+          <span className="text-xs text-purple-700 dark:text-purple-400 block mt-0.5">Admin review pending</span>
         </div>
 
-        <div className="p-3.5 bg-white dark:bg-[#152238] border border-rose-200 dark:border-rose-800/60 rounded-xl shadow-xs transition-colors">
-          <div className="flex items-center justify-between text-rose-700 dark:text-rose-400 mb-1 text-[11px] font-semibold uppercase tracking-wider">
+        <div className="p-4 bg-white dark:bg-[#152238] border border-rose-200 dark:border-rose-800/60 rounded-xl shadow-xs transition-colors">
+          <div className="flex items-center justify-between text-rose-700 dark:text-rose-400 mb-1.5 text-xs font-bold uppercase tracking-wider">
             <span>Overdue Target</span>
-            <AlertTriangle className="w-3.5 h-3.5 text-rose-500" />
+            <AlertTriangle className="w-4 h-4 text-rose-500" />
           </div>
-          <p className="text-2xl font-extrabold text-rose-900 dark:text-rose-300 tabular-nums font-display">
+          <p className="text-2xl sm:text-3xl font-extrabold text-rose-900 dark:text-rose-300 tabular-nums font-display">
             {overdueCount}
           </p>
-          <span className="text-[10px] text-rose-700 dark:text-rose-400">Deadline elapsed</span>
+          <span className="text-xs text-rose-700 dark:text-rose-400 block mt-0.5">Deadline elapsed</span>
         </div>
       </div>
 
       {/* Active Investigations Table: Contained & Fixed Width */}
       <div className="bg-white dark:bg-[#152238] border border-slate-200 dark:border-[#29384D] rounded-xl shadow-2xs overflow-hidden transition-colors">
-        <div className="px-4 py-3 border-b border-slate-100 dark:border-[#29384D] flex items-center justify-between">
+        <div className="px-5 py-3.5 border-b border-slate-100 dark:border-[#29384D] flex items-center justify-between">
           <div>
-            <h2 className="text-sm font-bold text-slate-900 dark:text-[#F1F5F9]">Priority Assigned Cases</h2>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400">
+            <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-[#F1F5F9] font-display">
+              Priority Assigned Cases
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
               Acknowledge assignments, post field updates, and submit resolution reports
             </p>
           </div>
           <Link
             to={ROUTES.OFFICER_COMPLAINTS}
-            className="text-xs font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 flex items-center gap-1"
+            className="text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 flex items-center gap-1.5"
           >
             <span>Manage queue</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
@@ -180,15 +182,15 @@ export function OfficerDashboard() {
           </div>
         ) : (
           <div className="overflow-x-auto w-full">
-            <table className="w-full text-left text-xs table-fixed">
-              <thead className="bg-slate-50 dark:bg-[#121E33] border-b border-slate-200 dark:border-[#29384D] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold text-[11px]">
+            <table className="w-full text-left text-sm table-fixed">
+              <thead className="bg-slate-50 dark:bg-[#121E33] border-b border-slate-200 dark:border-[#29384D] text-slate-600 dark:text-slate-300 uppercase tracking-wider font-semibold text-xs">
                 <tr>
-                  <th className="w-28 py-2.5 px-3">Tracking ID</th>
-                  <th className="w-auto min-w-[220px] py-2.5 px-3">Title & Location</th>
-                  <th className="w-24 py-2.5 px-3">Priority</th>
-                  <th className="w-36 py-2.5 px-3">Status</th>
-                  <th className="w-36 py-2.5 px-3">Target Deadlines</th>
-                  <th className="w-24 py-2.5 px-3 text-right">Investigation</th>
+                  <th className="w-28 py-3 px-3.5">Tracking ID</th>
+                  <th className="w-auto min-w-[220px] py-3 px-3.5">Title & Location</th>
+                  <th className="w-24 py-3 px-3.5">Priority</th>
+                  <th className="w-36 py-3 px-3.5">Status</th>
+                  <th className="w-36 py-3 px-3.5">Target Deadlines</th>
+                  <th className="w-24 py-3 px-3.5 text-right">Investigation</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-[#29384D]">
@@ -200,46 +202,46 @@ export function OfficerDashboard() {
                       key={item.id}
                       className="hover:bg-slate-50/70 dark:hover:bg-[#1A2C47] transition-colors"
                     >
-                      <td className="py-3 px-3 font-mono font-semibold text-slate-900 dark:text-slate-100 tabular-nums whitespace-nowrap">
+                      <td className="py-3 px-3.5 font-mono font-semibold text-sm text-slate-900 dark:text-slate-100 tabular-nums whitespace-nowrap">
                         {item.id}
                       </td>
-                      <td className="py-3 px-3 min-w-0">
+                      <td className="py-3 px-3.5 min-w-0">
                         <Link
                           to={ROUTES.OFFICER_COMPLAINT_DETAIL(item.id)}
-                          className="font-semibold text-slate-900 dark:text-slate-100 hover:text-teal-600 dark:hover:text-teal-400 hover:underline block truncate"
+                          className="font-semibold text-sm text-slate-900 dark:text-slate-100 hover:text-teal-600 dark:hover:text-teal-400 hover:underline block truncate"
                           title={item.title}
                         >
                           {item.title}
                         </Link>
                         <p
-                          className="text-[11px] text-slate-500 dark:text-slate-400 truncate"
+                          className="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5"
                           title={`${item.wardZoneName} · ${item.exactLocation}`}
                         >
                           {item.wardZoneName} · {item.exactLocation}
                         </p>
                       </td>
-                      <td className="py-3 px-3 whitespace-nowrap">
+                      <td className="py-3 px-3.5 whitespace-nowrap">
                         <PriorityBadge priority={item.priority} size="sm" />
                       </td>
-                      <td className="py-3 px-3 whitespace-nowrap">
+                      <td className="py-3 px-3.5 whitespace-nowrap">
                         <StatusBadge status={item.status} size="sm" />
                       </td>
-                      <td className="py-3 px-3 whitespace-nowrap">
+                      <td className="py-3 px-3.5 whitespace-nowrap">
                         <div className="space-y-0.5">
                           <OverdueBadge isOverdue={overdue} />
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 tabular-nums">
+                          <p className="text-xs text-slate-500 dark:text-slate-400 tabular-nums">
                             Ack: {item.acknowledgedAt ? 'Done' : formatDate(item.ackDeadline)}
                           </p>
                         </div>
                       </td>
-                      <td className="py-3 px-3 text-right whitespace-nowrap">
+                      <td className="py-3 px-3.5 text-right whitespace-nowrap">
                         <Link
                           to={ROUTES.OFFICER_COMPLAINT_DETAIL(item.id)}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold text-white bg-[#0B1220] hover:bg-[#123047] dark:bg-teal-500 dark:text-[#0B1220] dark:hover:bg-teal-400 rounded-md transition-colors"
+                          className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold text-white bg-[#0B1220] hover:bg-[#123047] dark:bg-teal-500 dark:text-[#0B1220] dark:hover:bg-teal-400 rounded-md transition-colors"
                           title={`Open case ${item.id}`}
                         >
                           <span>Open</span>
-                          <ExternalLink className="w-3 h-3" />
+                          <ExternalLink className="w-3.5 h-3.5" />
                         </Link>
                       </td>
                     </tr>

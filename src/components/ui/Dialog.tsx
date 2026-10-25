@@ -85,11 +85,11 @@ export function Dialog({
       >
         <div className="flex items-center justify-between border-b border-slate-200 dark:border-[#29384D] px-6 py-4">
           <div>
-            <h2 id="dialog-title" className="text-base font-semibold text-slate-900 dark:text-[#F1F5F9]">
+            <h2 id="dialog-title" className="text-lg font-bold text-slate-900 dark:text-[#F1F5F9] font-display">
               {title}
             </h2>
             {description && (
-              <p id="dialog-description" className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              <p id="dialog-description" className="text-sm text-slate-600 dark:text-slate-300 mt-1">
                 {description}
               </p>
             )}
