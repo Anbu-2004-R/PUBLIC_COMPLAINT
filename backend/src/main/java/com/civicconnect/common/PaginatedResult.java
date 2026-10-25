@@ -9,7 +9,8 @@ public class PaginatedResult<T> {
     private long totalItems;
     private int totalPages;
 
-    public PaginatedResult() {}
+    public PaginatedResult() {
+    }
 
     public PaginatedResult(List<T> items, int page, int size, long totalItems, int totalPages) {
         this.items = items;
@@ -19,18 +20,43 @@ public class PaginatedResult<T> {
         this.totalPages = totalPages;
     }
 
-    public List<T> getItems() { return items; }
-    public void setItems(List<T> items) { this.items = items; }
+    public List<T> getItems() {
+        return items;
+    }
 
-    public int getPage() { return page; }
-    public void setPage(int page) { this.page = page; }
+    public void setItems(List<T> items) {
+        this.items = items;
+    }
 
-    public int getSize() { return size; }
-    public void setSize(int size) { this.size = size; }
+    public int getPage() {
+        return page;
+    }
 
-    public long getTotalItems() { return totalItems; }
-    public void setTotalItems(long totalItems) { this.totalItems = totalItems; }
+    public void setPage(int page) {
+        this.page = page;
+    }
 
-    public int getTotalPages() { return totalPages; }
-    public void setTotalPages(int totalPages) { this.totalPages = totalPages; }
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public long getTotalItems() {
+        return totalItems;
+    }
+
+    public void setTotalItems(long totalItems) {
+        this.totalItems = totalItems;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
 }

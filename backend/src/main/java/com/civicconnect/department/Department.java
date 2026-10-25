@@ -1,10 +1,12 @@
 package com.civicconnect.department;
 
 import jakarta.persistence.*;
+import java.time.Instant;
 
 @Entity
 @Table(name = "departments")
 public class Department {
+
     @Id
     @Column(length = 64)
     private String id;
@@ -24,32 +26,92 @@ public class Department {
     @Column(name = "active_status", nullable = false)
     private boolean activeStatus = true;
 
-    public Department() {}
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt = Instant.now();
 
-    public Department(String id, String name, String code, String description, String headOfficerName, boolean activeStatus) {
+    @Column(name = "updated_at")
+    private Instant updatedAt = Instant.now();
+
+    public Department() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getHeadOfficerName() {
+        return headOfficerName;
+    }
+
+    public void setHeadOfficerName(String headOfficerName) {
         this.headOfficerName = headOfficerName;
+    }
+
+    public boolean isActiveStatus() {
+        return activeStatus;
+    }
+
+    public void setActiveStatus(boolean activeStatus) {
         this.activeStatus = activeStatus;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
 
-    public String getCode() { return code; }
-    public void setCode(String code) { this.code = code; }
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
-    public String getHeadOfficerName() { return headOfficerName; }
-    public void setHeadOfficerName(String headOfficerName) { this.headOfficerName = headOfficerName; }
+    @PrePersist
+    protected void onCreate() {
+        if (id == null || id.isEmpty()) {
+            this.id = "dept-" + java.util.UUID.randomUUID().toString().substring(0, 8);
+        }
+        if (createdAt == null) {
+            createdAt = Instant.now();
+        }
+        updatedAt = Instant.now();
+    }
 
-    public boolean isActiveStatus() { return activeStatus; }
-    public void setActiveStatus(boolean activeStatus) { this.activeStatus = activeStatus; }
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = Instant.now();
+    }
 }
