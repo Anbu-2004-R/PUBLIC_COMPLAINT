@@ -20,6 +20,37 @@ import { ROLE_STATUS_ACTIONS, PRIORITY_DEFINITIONS } from '../config/workflow';
 
 import { DEFAULT_DEMO_PASSWORD_HASH } from '../utils/security';
 
+export const CIVIC_STORAGE_KEYS = {
+  USERS: 'civicpulse_users_db_v1',
+  PASSWORDS: 'civicpulse_passwords_db_v1',
+  COMPLAINTS: 'civicpulse_complaints_db_v1',
+  NOTIFICATIONS: 'civicpulse_notifications_db_v1',
+  AUDIT_LOGS: 'civicpulse_audit_logs_db_v1',
+  CURRENT_USER: 'civicpulse_current_user_v1',
+  SESSION_STATUS: 'civicpulse_session_status_v1',
+};
+
+function safeStorageGet(key: string): string | null {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return window.localStorage.getItem(key);
+    }
+  } catch {
+    // Ignore restricted environments
+  }
+  return null;
+}
+
+function safeStorageSet(key: string, value: string): void {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem(key, value);
+    }
+  } catch {
+    // Ignore restricted environments
+  }
+}
+
 class MockStore {
   private users: User[] = [...DEMO_USERS];
   private userPasswords: Map<string, string> = new Map();
@@ -34,12 +65,174 @@ class MockStore {
   // Current authenticated user in demo mode
   private currentUser: User = DEMO_USERS[0]; // Default to Citizen Priya Sharma
 
+  constructor() {
+    this.loadFromStorage();
+  }
+
+  loadFromStorage(): void {
+    this.loadUsers();
+    this.loadPasswords();
+    this.loadComplaints();
+    this.loadNotifications();
+    this.loadAuditLogs();
+    this.loadCurrentUser();
+  }
+
+  private loadUsers(): void {
+    try {
+      const raw = safeStorageGet(CIVIC_STORAGE_KEYS.USERS);
+      if (raw) {
+        const storedUsers: User[] = JSON.parse(raw);
+        if (Array.isArray(storedUsers) && storedUsers.length > 0) {
+          const storedMap = new Map<string, User>(storedUsers.map((u) => [u.id, u]));
+          const merged: User[] = [];
+          for (const demoUser of DEMO_USERS) {
+            const stored = storedMap.get(demoUser.id);
+            if (stored) {
+              merged.push(stored);
+              storedMap.delete(demoUser.id);
+            } else {
+              merged.push({ ...demoUser });
+            }
+          }
+          for (const customUser of storedMap.values()) {
+            merged.push(customUser);
+          }
+          this.users = merged;
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse users from storage:', e);
+    }
+    this.users = [...DEMO_USERS];
+    this.persistUsers();
+  }
+
+  persistUsers(): void {
+    safeStorageSet(CIVIC_STORAGE_KEYS.USERS, JSON.stringify(this.users));
+  }
+
+  private loadPasswords(): void {
+    try {
+      const raw = safeStorageGet(CIVIC_STORAGE_KEYS.PASSWORDS);
+      if (raw) {
+        const entries: [string, string][] = JSON.parse(raw);
+        if (Array.isArray(entries)) {
+          this.userPasswords = new Map(entries);
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse passwords from storage:', e);
+    }
+    this.userPasswords = new Map();
+  }
+
+  persistPasswords(): void {
+    safeStorageSet(
+      CIVIC_STORAGE_KEYS.PASSWORDS,
+      JSON.stringify(Array.from(this.userPasswords.entries()))
+    );
+  }
+
+  private loadComplaints(): void {
+    try {
+      const raw = safeStorageGet(CIVIC_STORAGE_KEYS.COMPLAINTS);
+      if (raw) {
+        const storedComplaints: Complaint[] = JSON.parse(raw);
+        if (Array.isArray(storedComplaints) && storedComplaints.length > 0) {
+          const storedIds = new Set(storedComplaints.map((c) => c.id));
+          const merged: Complaint[] = [...storedComplaints];
+          for (const init of INITIAL_COMPLAINTS) {
+            if (!storedIds.has(init.id)) {
+              merged.push({ ...init });
+            }
+          }
+          this.complaints = merged;
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse complaints from storage:', e);
+    }
+    this.complaints = [...INITIAL_COMPLAINTS];
+    this.persistComplaints();
+  }
+
+  persistComplaints(): void {
+    safeStorageSet(CIVIC_STORAGE_KEYS.COMPLAINTS, JSON.stringify(this.complaints));
+  }
+
+  private loadNotifications(): void {
+    try {
+      const raw = safeStorageGet(CIVIC_STORAGE_KEYS.NOTIFICATIONS);
+      if (raw) {
+        const stored = JSON.parse(raw);
+        if (Array.isArray(stored)) {
+          this.notifications = stored;
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse notifications from storage:', e);
+    }
+    this.notifications = [...INITIAL_NOTIFICATIONS];
+  }
+
+  persistNotifications(): void {
+    safeStorageSet(CIVIC_STORAGE_KEYS.NOTIFICATIONS, JSON.stringify(this.notifications));
+  }
+
+  private loadAuditLogs(): void {
+    try {
+      const raw = safeStorageGet(CIVIC_STORAGE_KEYS.AUDIT_LOGS);
+      if (raw) {
+        const stored = JSON.parse(raw);
+        if (Array.isArray(stored)) {
+          this.auditLogs = stored;
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to parse audit logs from storage:', e);
+    }
+    this.auditLogs = [...INITIAL_AUDIT_LOGS];
+  }
+
+  persistAuditLogs(): void {
+    safeStorageSet(CIVIC_STORAGE_KEYS.AUDIT_LOGS, JSON.stringify(this.auditLogs));
+  }
+
+  private loadCurrentUser(): void {
+    try {
+      const sessionState = safeStorageGet(CIVIC_STORAGE_KEYS.SESSION_STATUS);
+      if (sessionState === 'LOGGED_OUT') {
+        // Retain default demo user in store, but session remains logged out in AuthContext
+        return;
+      }
+      const raw = safeStorageGet(CIVIC_STORAGE_KEYS.CURRENT_USER);
+      if (raw) {
+        const savedUser: User = JSON.parse(raw);
+        if (savedUser && savedUser.id) {
+          const matched = this.users.find((u) => u.id === savedUser.id);
+          this.currentUser = matched || savedUser;
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to load current user from storage:', e);
+    }
+    this.currentUser = this.users[0] || DEMO_USERS[0];
+  }
+
   getCurrentUser(): User {
     return this.currentUser;
   }
 
   setCurrentUser(user: User) {
     this.currentUser = user;
+    safeStorageSet(CIVIC_STORAGE_KEYS.CURRENT_USER, JSON.stringify(user));
   }
 
   getUsers(): User[] {
@@ -52,7 +245,11 @@ class MockStore {
     const normalized = clean.replace('@civictrack.org', '@civicpulse.org');
     return this.users.find((u) => {
       const uEmail = u.email.trim().toLowerCase();
-      return uEmail === clean || uEmail === normalized || uEmail.replace('@civictrack.org', '@civicpulse.org') === normalized;
+      return (
+        uEmail === clean ||
+        uEmail === normalized ||
+        uEmail.replace('@civictrack.org', '@civicpulse.org') === normalized
+      );
     });
   }
 
@@ -60,6 +257,8 @@ class MockStore {
     this.users.push(user);
     this.userPasswords.set(user.id, passwordHash);
     this.userPasswords.set(user.email.toLowerCase().trim(), passwordHash);
+    this.persistUsers();
+    this.persistPasswords();
 
     this.addAuditLog({
       actorId: user.id,
@@ -81,7 +280,9 @@ class MockStore {
     if (!user) return false;
 
     // Check by ID or normalized email
-    const stored = this.userPasswords.get(userId) || this.userPasswords.get(user.email.toLowerCase().trim());
+    const stored =
+      this.userPasswords.get(userId) ||
+      this.userPasswords.get(user.email.toLowerCase().trim());
     if (stored) {
       return stored === passwordHash;
     }
@@ -96,6 +297,7 @@ class MockStore {
     if (user) {
       this.userPasswords.set(user.email.toLowerCase().trim(), passwordHash);
     }
+    this.persistPasswords();
   }
 
   verifyUserEmail(tokenOrEmail: string): boolean {
@@ -103,12 +305,14 @@ class MockStore {
     const user = this.users.find((u) => u.email.toLowerCase() === clean);
     if (user) {
       user.emailVerified = true;
+      this.persistUsers();
       return true;
     }
     // In simulated demo mode, activating verification token marks all unverified accounts as verified
     this.users.forEach((u) => {
       u.emailVerified = true;
     });
+    this.persistUsers();
     return true;
   }
 
@@ -130,6 +334,7 @@ class MockStore {
       afterValue: `STATUS=${newStatus}`,
     });
 
+    this.persistUsers();
     return { ...user };
   }
 
@@ -426,6 +631,7 @@ class MockStore {
       afterValue: `STATUS=${routing.status}, CATEGORY=${category.name}, WARD=${zone.name}`,
     });
 
+    this.persistComplaints();
     return newComplaint;
   }
 
@@ -464,6 +670,7 @@ class MockStore {
       afterValue: 'STATUS=ACKNOWLEDGED',
     });
 
+    this.persistComplaints();
     return complaint;
   }
 
@@ -502,6 +709,7 @@ class MockStore {
       });
     }
 
+    this.persistComplaints();
     return complaint;
   }
 
@@ -546,6 +754,7 @@ class MockStore {
       relatedComplaintId: complaint.id,
     });
 
+    this.persistComplaints();
     return complaint;
   }
 
@@ -589,6 +798,7 @@ class MockStore {
       });
     }
 
+    this.persistComplaints();
     return complaint;
   }
 
@@ -662,6 +872,7 @@ class MockStore {
       relatedComplaintId: complaint.id,
     });
 
+    this.persistComplaints();
     return complaint;
   }
 
@@ -784,6 +995,7 @@ class MockStore {
       afterValue: `STATUS=${complaint.status}`,
     });
 
+    this.persistComplaints();
     return complaint;
   }
 
