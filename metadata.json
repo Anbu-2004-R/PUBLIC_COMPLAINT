@@ -1,0 +1,6 @@
+{
+  "name": "CivicPulse - Public Complaint System",
+  "description": "Public Grievance & Accountability Platform. Your City. Your Voice. Real Action. Centralized civic case management for citizens, officers, and administrators.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
